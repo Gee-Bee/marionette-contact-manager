@@ -40,8 +40,8 @@
 
     </div><!-- /.container -->
 
-    <script type="text/template" charset="utf-8" id="contact-template">
-      <p><%= firstName %> <%= lastName %></p>
+    <script type="text/template" charset="utf-8" id="contact-list-item">
+      <%= firstName %> <%= lastName %>
     </script>
 
 
@@ -53,38 +53,78 @@
     <script charset="utf-8">
       var ContactManager = new Marionette.Application();
 
+      ContactManager.addRegions({
+        mainRegion: '#main-region'
+      });
+
       ContactManager.Contact = Backbone.Model.extend({
         defaults: {
           phoneNumber: 'No phone number!'
         }
       });
 
-      ContactManager.addRegions({
-        mainRegion: '#main-region'
+      ContactManager.ContactCollection = Backbone.Collection.extend({
+        model: ContactManager.Contact,
+        comparator: function(c1, c2) {
+          if (c1.get('firstName') === c2.get('firstName'))
+            if (c1.get('lastName') === c2.get('lastName'))
+              return 0
+            else
+              return c1.get('lastName')  < c2.get('lastName')  ? -1 : 1
+          else
+            return c1.get('firstName') < c2.get('firstName') ? -1 : 1
+        }
+      })
+
+      ContactManager.ContactItemView = Marionette.ItemView.extend({
+        tagName: 'li',
+        template: '#contact-list-item'
       });
 
-      ContactManager.ContactView = Marionette.ItemView.extend({
-        template: '#contact-template',
-        events: {
-          'click p': 'alertPhoneNumber'
-        },
-        alertPhoneNumber: function(){
-          alert(this.model.escape('phoneNumber'));
-        }
-      });
+      ContactManager.ContactsView = Marionette.CollectionView.extend({
+        tagName: 'ul',
+        childView: ContactManager.ContactItemView
+      })
 
       ContactManager.on('start', function(){
-        var alice = new ContactManager.Contact({
-          firstName: 'Alice',
-          lastName: 'Arten',
-          // phoneNumber: '555-0184'
-        })
+        var contacts = new ContactManager.ContactCollection([
+          {
+            firstName: 'Alice',
+            lastName: 'Tampen',
+            phoneNumber: '555-0148'
+          },
+          {
+            firstName: 'Bob',
+            lastName: 'Brigham',
+            phoneNumber: '555-0163'
+          },
+          {
+            firstName: 'Alice',
+            lastName: 'Artsy',
+            phoneNumber: '555-0284'
+          },
+          {
+            firstName: 'Alice',
+            lastName: 'Arten',
+            phoneNumber: '555-0184'
+          },
+          {
+            firstName: 'Charlie',
+            lastName: 'Campbell',
+            phoneNumber: '555-0129'
+          },
+          {
+            firstName: 'Alice',
+            lastName: 'Smith',
+            phoneNumber: '555-0344'
+          }
+        ]);
 
-        var aliceView = new ContactManager.ContactView({
-          model: alice
+        var contactsView = new ContactManager.ContactsView({
+          collection: contacts
         });
 
-        ContactManager.mainRegion.show(aliceView);
+        ContactManager.mainRegion.show(contactsView);
       });
 
       ContactManager.start();
