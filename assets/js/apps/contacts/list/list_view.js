@@ -4,13 +4,25 @@ ContactManager.module('ContactsApp.List', function(List, ContactManager, Backbon
     template: '#contact-list-item',
     events: {
       'click': 'highlightName',
-      'click td': 'alertCellText'
+      'click td': 'alertCellText',
+      'click button.js-delete': 'deleteClicked'
     },
     highlightName: function(){
       this.$el.toggleClass('warning');
+      this.trigger('contact:highlighting:toggled', this.model);
     },
     alertCellText: function(e){
       alert($(e.target).text());
+    },
+    deleteClicked: function(e) {
+      e.stopPropagation();
+      this.trigger('contact:delete', this.model);
+    },
+    remove: function(){
+      var self = this;
+      this.$el.fadeOut(function(){
+        Marionette.ItemView.prototype.remove.call(self);
+      });
     }
   });
 

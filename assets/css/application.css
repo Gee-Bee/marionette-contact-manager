@@ -2,3 +2,11 @@ body {
   /* room for navigation bar */
   padding-top: 60px;
 }
+
+.btn .glyphicon {
+  margin-right: .4em;
+}
+
+.btn.btn-icon .glyphicon {
+  margin-right: 0;
+}
