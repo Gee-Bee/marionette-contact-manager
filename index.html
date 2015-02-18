@@ -41,9 +41,11 @@
     </div><!-- /.container -->
 
     <script type="text/template" charset="utf-8" id="contact-list-item">
-      <td><%= firstName %></td><td><%= lastName %></td>
+      <td><%= firstName %></td>
+      <td><%= lastName %></td>
       <td>
-        <button class='btn btn-sm js-delete'><span class='glyphicon glyphicon-remove'/>Delete</button>
+        <a href='#' class='btn btn-default btn-sm js-show'><span class='glyphicon glyphicon-eye-open'/>Show</a>
+        <button class='btn btn-default btn-sm js-delete'><span class='glyphicon glyphicon-remove'/>Delete</button>
       </td>
     </script>
 
@@ -52,6 +54,11 @@
         <tr><th>First name</th><th>Last name</th><th></th></tr>
       </thead>
       <tbody></tbody>
+    </script>
+
+    <script type="text/template" charset="utf-8" id="contact-view">
+      <h1><%= firstName %> <%= lastName %></h1>
+      <p><strong>Phone number:</strong> <%= phoneNumber %></p>
     </script>
 
 
@@ -64,6 +71,8 @@
     <script src="assets/js/entities/contact.js" charset="utf-8"></script>
     <script src="assets/js/apps/contacts/list/list_view.js" charset="utf-8"></script>
     <script src="assets/js/apps/contacts/list/list_controller.js" charset="utf-8"></script>
+    <script src="assets/js/apps/contacts/show/show_view.js" charset="utf-8"></script>
+    <script src="assets/js/apps/contacts/show/show_controller.js" charset="utf-8"></script>
 
     <script charset="utf-8">
       ContactManager.start();
