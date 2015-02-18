@@ -5,5 +5,8 @@ ContactManager.addRegions({
 });
 
 ContactManager.on('start', function(){
-  ContactManager.ContactsApp.List.Controller.listContacts();
+  // ContactManager.ContactsApp.List.Controller.listContacts();
+  if (Backbone.history) {
+    Backbone.history.start();
+  }
 });
