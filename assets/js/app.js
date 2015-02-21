@@ -15,7 +15,7 @@ ContactManager.getCurrentRoute = function() {
 
 ContactManager.on('start', function(){
   if (Backbone.history) {
-    Backbone.history.start();
+    Backbone.history.start({pushState: true});
 
     if (this.getCurrentRoute() == '') {
       ContactManager.trigger('contacts:list');
