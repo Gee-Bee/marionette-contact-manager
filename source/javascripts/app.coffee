@@ -1,3 +1,5 @@
+#= require_tree ./templates
+
 $ ->
   ContactManager = new Marionette.Application()
 
@@ -5,17 +7,20 @@ $ ->
     mainRegion: '#main-region'
 
   ContactView = Marionette.ItemView.extend
-    template: '#contact-view-template'
+    template: JST['templates/contact']
     events:
       'click p': ->
         alert(this.model.escape 'phone_number')
 
   ContactManager.on 'start', ->
+    alice = new Backbone.Model
+      first_name: 'Alice'
+      last_name: 'Arten'
+      phone_number: '555-685'
+
     contactView = new ContactView
-      model: new Backbone.Model
-        first_name: 'Alice'
-        last_name: 'Arten'
-        phone_number: '555-685'
+      model: alice
+
     ContactManager.mainRegion.show(contactView);
 
   ContactManager.start();
